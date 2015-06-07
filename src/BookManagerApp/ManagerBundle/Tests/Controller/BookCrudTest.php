@@ -3,11 +3,18 @@
 namespace BookManagerApp\ManagerBundle\Tests\Controller;
 
 use BookManagerApp\ManagerBundle\Entity\Book;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Doctrine\Common\DataFixtures\Purger;
 
 
-class BookCrudTest extends KernelTestCase
+class BookCrudTest extends WebTestCase
 {
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+
     public function setUp()
     {
         self::bootKernel();
@@ -15,7 +22,9 @@ class BookCrudTest extends KernelTestCase
             ->get('doctrine')
             ->getManager()
         ;
-
+        $this->loadFixtures(array(
+            "BookManagerApp\ManagerBundle\DataFixtures\ORM\LoadBookData"
+        ), null, 'doctrine',Purger\ORMPurger::PURGE_MODE_TRUNCATE);
     }
 
     public function testAllBookCount()
@@ -26,8 +35,6 @@ class BookCrudTest extends KernelTestCase
 
     public function testCreateBook()
     {
-        try {
-            $this->em->getConnection()->beginTransaction();
             $book = new Book();
             $book->setTitle("Python CookBook");
             $book->setDescription("Python for experts");
@@ -36,50 +43,27 @@ class BookCrudTest extends KernelTestCase
             $this->em->flush();
             $this->assertGreaterThan(1,$book->getId());
             $this->assertEquals("Python CookBook",$book->getTitle());
-
-        } catch(Exception $e) {
-            $this->em->getConnection()->rollback();
-        } finally {
-            $this->em->getConnection()->rollback();
-        }
     }
 
     public function testUpdateBook()
     {
 
-        try {
-            $this->em->getConnection()->beginTransaction();
             $book = $this->em->getRepository('BookManagerAppManagerBundle:Book')->find(1);
             $this->assertEquals("Java CookBook", $book->getTitle());
             $book->setTitle("PHP CookBook");
             $this->em->flush();
             $updatedBook = $this->em->getRepository('BookManagerAppManagerBundle:Book')->find(1);
             $this->assertEquals("PHP CookBook",$updatedBook->getTitle());
-
-        } catch (Exception $e) {
-            $this->em->getConnection()->rollback();
-        } finally {
-            $this->em->getConnection()->rollback();
-        }
     }
 
     public function testDeleteBook()
     {
-
-        try {
-            $this->em->getConnection()->beginTransaction();
             $book = $this->em->getRepository('BookManagerAppManagerBundle:Book')->find(1);
             $this->assertEquals(1, $book->getId());
             $this->em->remove($book);
             $this->em->flush();
             $emptyBookObject = $this->em->getRepository('BookManagerAppManagerBundle:Book')->find(1);
             $this->assertNull($emptyBookObject);
-
-        } catch (Exception $e) {
-            $this->em->getConnection()->rollback();
-        } finally {
-            $this->em->getConnection()->rollback();
-        }
     }
 
     protected function tearDown()
