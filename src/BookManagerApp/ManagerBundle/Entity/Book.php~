@@ -1,0 +1,46 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: suman
+ * Date: 4/4/2015
+ * Time: 2:54 PM
+ */
+namespace BookManagerApp\ManagerBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+ * @ORM\Entity
+ * @ORM\Table("name=book")
+ */
+class Book
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=120)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
+     */
+    protected $title;
+
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5, max=500)
+     */
+    protected $description;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\GreaterThan(value=0)
+     */
+    protected $pages;
+
+} 

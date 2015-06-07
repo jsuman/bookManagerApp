@@ -1,0 +1,30 @@
+book:
+   path: /
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:index" }
+
+book_show:
+   path: /show/{id}
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:show" }
+
+book_new:
+   path: /new
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:new"}
+
+book_create:
+   path: /create
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:create"}
+   requirements: { _method: post }
+
+book_edit:
+   path: /edit/{id}
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:edit"}
+
+book_update:
+   path: /update/{id}
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:update"}
+   requirements: { _method: post|put }
+
+book_delete:
+   path: /delete/{id}
+   defaults: { _controller: "BookManagerAppManagerBundle:Book:delete"}
+   requirements: { _method: post|delete }

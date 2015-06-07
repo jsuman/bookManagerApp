@@ -1,0 +1,4 @@
+book_manager_app_manager:
+    resource: "@BookManagerAppManagerBundle/Resources/config/routing.yml"
+    prefix:   /
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Book Manager{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('styles/main.css') }}" type="text/css" rel="stylesheet">
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+    <div class="header-content">
+        <header>
+            <div id="logo">
+                <h2> Bookies</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('book') }}">Home</a></li>
+                    <li><a href="#">Sign In</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div><!-- end header-content-->
+
+    <div class="content">
+            {% for flashMessage in app.session.flashbag.get('msg') %}
+            <div>{{ flashMessage }}</div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+            {% block javascripts %}
+
+            {% endblock %}
+        </div><!-- end content-->
+
+    <!-- Footer -->
+    <div class="footerWrap">
+        <footer>
+            <div class="footer-content">
+                <small> &copy; 2015 Bookies</small>
+            </div>
+        </footer>
+    </div>
+    </body>
+</html>

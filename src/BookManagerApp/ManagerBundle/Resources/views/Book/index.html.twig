@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+{% block body -%}
+    <div class="book-gallery">
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{{ path('book_show',{'id': book.id}) }}"> {{ book.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    </div>
+    <div class="book-create-button">
+    <a href="{{ path('book_new') }}">Create New Book</a>
+    </div>
+{% endblock %}
